@@ -1,0 +1,247 @@
+<ion-content>
+  <div *ngIf="allData" class="bg-dark">
+    <ion-grid>
+      <ion-row>
+        <ion-col class="app-title">
+          COVID-19 TRACKER<br />
+          <span class="india">INDIA</span>
+        </ion-col>
+        <ion-col (click)="getData()" class="text-align-right small-text">
+          <ion-text color="success">Last Updated</ion-text> <br>
+          <ion-text color="success">{{totalCases.lastupdatedtime | dateAgo}}</ion-text><br>
+          <ion-text color="success">{{totalCases.lastupdatedtime}}</ion-text><br>
+          <ion-text class="col-dark">
+            <span *ngIf="offline && cachedData">Showing offline data <br></span>
+            <ion-icon name="refresh-outline"></ion-icon> {{refreshBtnText}}
+          </ion-text>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+    <ion-card class="app-hint">
+      All data is sourced from <a href="https://www.covid19india.org">India Covid-19 Tracker</a>
+      <!-- <br>Tap to learn more -->
+    </ion-card>
+    <ion-grid class="grid-data stay-sticky padding-top">
+      <ion-row>
+        <ion-col class="grid-danger">
+          <div class="total-case-title">Confirmed</div>
+          <div class="small-text">[+{{totalCases.deltaconfirmed? totalCases.deltaconfirmed : '0'}}]</div>
+          <div class="total-case-data"> {{totalCases.confirmed}} </div>
+        </ion-col>
+        <ion-col class="grid-primary">
+          <div class="total-case-title">Active</div>
+          <div class="small-text">&nbsp;</div>
+          <div class="total-case-data"> {{totalCases.active}} </div>
+        </ion-col>
+        <ion-col class="grid-success">
+          <div class="total-case-title">Recovered</div>
+          <div class="small-text">[+{{totalCases.deltarecovered? totalCases.deltarecovered: '0'}}]</div>
+          <div class="total-case-data"> {{totalCases.recovered}} </div>
+        </ion-col>
+        <ion-col class="grid-dark">
+          <div class="total-case-title">Deaths</div>
+          <div class="small-text">[+{{totalCases.deltadeaths? totalCases.deltadeaths: '0'}}]</div>
+          <div class="total-case-data"> {{totalCases.deaths}} </div>
+        </ion-col>
+      </ion-row>
+      <ion-row class="padding-top bg-black"><ion-col></ion-col></ion-row>
+      <ion-row class="row-container">
+        <ion-col size="3" (click)="sortStateData('state')" class="header-col">
+          State/UT
+          <ion-icon *ngIf="sortStateDataBy === 'state' && sortStateDataAscending" name="arrow-up-outline"></ion-icon>
+          <ion-icon *ngIf="sortStateDataBy === 'state' && !sortStateDataAscending" name="arrow-down-outline"></ion-icon>
+          <ion-icon *ngIf="sortStateDataBy !== 'state'" name="swap-vertical-outline"></ion-icon>
+        </ion-col>
+        <ion-col (click)="sortStateData('confirmed')" class="header-col col-danger">
+          Cnfrm
+          <ion-icon *ngIf="sortStateDataBy === 'confirmed' && sortStateDataAscending" name="arrow-up-outline">
+          </ion-icon>
+          <ion-icon *ngIf="sortStateDataBy === 'confirmed' && !sortStateDataAscending" name="arrow-down-outline">
+          </ion-icon>
+          <ion-icon *ngIf="sortStateDataBy !== 'confirmed'" name="swap-vertical-outline"></ion-icon>
+        </ion-col>
+        <ion-col (click)="sortStateData('active')" class="header-col col-primary">
+          <ion-icon *ngIf="sortStateDataBy === 'active' && sortStateDataAscending" name="arrow-up-outline"></ion-icon>
+          <ion-icon *ngIf="sortStateDataBy === 'active' && !sortStateDataAscending" name="arrow-down-outline">
+          </ion-icon>
+          <ion-icon *ngIf="sortStateDataBy !== 'active'" name="swap-vertical-outline"></ion-icon>
+          Actv
+        </ion-col>
+        <ion-col (click)="sortStateData('recovered')" class="header-col col-success">
+          <ion-icon *ngIf="sortStateDataBy === 'recovered' && sortStateDataAscending" name="arrow-up-outline">
+          </ion-icon>
+          <ion-icon *ngIf="sortStateDataBy === 'recovered' && !sortStateDataAscending" name="arrow-down-outline">
+          </ion-icon>
+          <ion-icon *ngIf="sortStateDataBy !== 'recovered'" name="swap-vertical-outline"></ion-icon>
+          Rcvrd
+        </ion-col>
+        <ion-col (click)="sortStateData('deaths')" class="header-col col-dark">
+          <ion-icon *ngIf="sortStateDataBy === 'deaths' && sortStateDataAscending" name="arrow-up-outline"></ion-icon>
+          <ion-icon *ngIf="sortStateDataBy === 'deaths' && !sortStateDataAscending" name="arrow-down-outline">
+          </ion-icon>
+          <ion-icon *ngIf="sortStateDataBy !== 'deaths'" name="swap-vertical-outline"></ion-icon>
+          Death
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+    <ion-grid class="grid-data text-align-right">
+      <div *ngFor="let stateCase of stateCases">
+        <ion-row class="row-container">
+          <ion-col size="3" (click)="showDistrictData(stateCase.state)" class="state-font-size col-dark">
+            <ion-icon name="{{stateCase.expanded? 'chevron-down-outline' : 'chevron-forward-outline'}}"></ion-icon>
+            {{stateCase.state}}
+          </ion-col>
+          <ion-col class="col-width">
+            <div class="small-text col-danger">
+              +{{stateCase.deltaconfirmed}}
+            </div>
+            {{stateCase.confirmed}}
+          </ion-col>
+          <ion-col class="col-width">
+            <div class="small-text col-danger">
+              &nbsp;
+            </div>
+            {{stateCase.active}}
+          </ion-col>
+          <ion-col class="col-width">
+            <div class="small-text col-success">
+              +{{stateCase.deltarecovered}}
+            </div>
+            {{stateCase.recovered}}
+          </ion-col>
+          <ion-col class="col-width">
+            <div class="small-text col-dark">
+              +{{stateCase.deltadeaths}}
+            </div>
+            {{stateCase.deaths}}
+          </ion-col>
+        </ion-row>
+        <div *ngIf="stateCase.expanded" class="district-data-container">
+          <ion-card>
+            <ion-row class="small-text" class="district-data-header">
+              <ion-col>
+                <ion-text color="success"><strong>Last Updated</strong></ion-text>
+              </ion-col>
+              <ion-col class="text-align-left">
+                <ion-text color="success">
+                  <strong>About
+                    {{stateCase.lastupdatedtime | dateAgo  }}
+                  </strong>
+                </ion-text>
+              </ion-col>
+            </ion-row>
+            <ion-row class="district-data col-primary text-bold">
+              <ion-col (click)="sortDistrictData(stateCase.state,'district')">
+                District
+                <ion-icon *ngIf="stateCase.sortDistrictDataBy === 'district' && stateCase.sortDistrictDataAscending"
+                  name="arrow-up-outline">
+                </ion-icon>
+                <ion-icon *ngIf="stateCase.sortDistrictDataBy === 'district' && !stateCase.sortDistrictDataAscending"
+                  name="arrow-down-outline"></ion-icon>
+                <ion-icon *ngIf="stateCase.sortDistrictDataBy !== 'district'" name="swap-vertical-outline"></ion-icon>
+              </ion-col>
+              <ion-col (click)="sortDistrictData(stateCase.state,'confirmed')">
+                <ion-icon *ngIf="stateCase.sortDistrictDataBy === 'confirmed' && stateCase.sortDistrictDataAscending"
+                name="arrow-up-outline">
+              </ion-icon>
+              <ion-icon *ngIf="stateCase.sortDistrictDataBy === 'confirmed' && !stateCase.sortDistrictDataAscending"
+              name="arrow-down-outline"></ion-icon>
+              <ion-icon *ngIf="stateCase.sortDistrictDataBy !== 'confirmed'" name="swap-vertical-outline"></ion-icon>
+              Confirmed
+              </ion-col>
+            </ion-row>
+            <ion-row *ngFor="let districtData of stateCase.districts" class="district-data">
+              <ion-col>{{districtData.district}}</ion-col>
+              <ion-col>
+                <span *ngIf="districtData.delta.confirmed"
+                  class="small-text col-danger">+{{districtData.delta.confirmed}}&nbsp;</span>
+                {{districtData.confirmed}}
+              </ion-col>
+            </ion-row>
+          </ion-card>
+        </div>
+      </div>
+      <ion-row class="table-footer">
+        <ion-col size="3">
+          <div>&nbsp;</div>{{totalCases.state}}
+        </ion-col>
+        <ion-col>
+          <div class="small-text col-danger">+{{totalCases.deltaconfirmed}} </div>{{totalCases.confirmed}}
+        </ion-col>
+        <ion-col>
+          <div class="small-text col-danger">&nbsp;</div>
+          {{totalCases.active}}
+        </ion-col>
+        <ion-col>
+          <div class="small-text col-success">+{{totalCases.deltarecovered}} </div>{{totalCases.recovered}}
+        </ion-col>
+        <ion-col>
+          <div class="small-text col-dark">+{{totalCases.deltadeaths}} </div>{{totalCases.deaths}}
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+    <div class="affected-states small-text">
+      {{stateCases.length}} States/Union territories affected
+    </div>
+    <ion-card class="about-us-card">
+      <div class="masthead">
+        App developed and maintained by Yash Jain <br>
+        All thoughts welcome for further improvement
+      </div>
+      <div>
+        <ion-row class="social-sharing">
+          <ion-col (click)="openWhatsapp()">
+            <a>
+              <ion-icon color="success" name="logo-whatsapp"></ion-icon>
+            </a>
+          </ion-col>
+          <ion-col>
+            <a href="https://www.twitter.com/jainysh" target="_blank">
+              <ion-icon color="primary" name="logo-twitter"></ion-icon>
+            </a>
+          </ion-col>
+          <ion-col>
+            <a href="https://www.linkedin.com/in/jainysh" target="_blank">
+              <ion-icon name="logo-linkedin"></ion-icon>
+            </a>
+          </ion-col>
+          <ion-col>
+            <a href="https://www.github.com/Jainysh" target="_blank">
+              <ion-icon style="color: #fff" name="logo-github"></ion-icon>
+            </a>
+          </ion-col>
+        </ion-row>
+      </div>
+    </ion-card>
+  </div>
+
+  <div *ngIf="!allData" class="fullheight no-data">
+    <div *ngIf="!offline">
+      Fetching data
+      <div class="retry">
+        <ion-button color="dark" (click)="getData()">Retry <ion-icon name="refresh-outline"></ion-icon>
+        </ion-button>
+      </div>
+
+    </div>
+    <div *ngIf="offline">
+      <div class="alert-icon">
+        <ion-icon name="alert-circle-outline"></ion-icon>
+      </div>
+      <div class="offline-text">It seems you are offline!</div>
+      Please turn on your internet or connect to wifi and retry
+      <br>
+      <div class="retry">
+        <ion-button color="dark" (click)="getData()">Retry <ion-icon name="refresh-outline"></ion-icon>
+        </ion-button>
+      </div>
+    </div>
+  </div>
+
+</ion-content>
+<ion-footer>
+  <div class="footer success">
+    Stay Home. Stay Safe.<br>
+    <span class="hindi"> हम होंगे कामयाब </span>&nbsp;We Shall Overcome
+  </div>
+</ion-footer>
