@@ -17,6 +17,8 @@ $RECYCLE.BIN/
 log.txt
 npm-debug.log*
 
+my-release-key.jks
+
 /.idea
 /.ionic
 /.sass-cache
