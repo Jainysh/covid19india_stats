@@ -1,5 +1,7 @@
 {
   "name": "covid19-app",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "angular"
 }

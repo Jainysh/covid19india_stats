@@ -1,0 +1,228 @@
+.total-case-data {
+    font-size: large;
+}
+
+.total-case-title {
+    text-align: center;
+    padding: 0 0 10px 0;
+    overflow: hidden;
+    overflow-wrap: normal;
+    text-overflow: ellipsis;
+}
+
+.text-align-right {
+    text-align: right;
+}
+
+.text-bold {
+    font-weight: 500;
+}
+
+.app-title {
+    text-align: left;
+    font-size: large;
+    color: #fff;
+    .india{
+        font-size: x-large;
+    }
+}
+
+.small-text {
+    font-size: small;
+}
+
+.state-font-size {
+    background-color: black;
+    font-size: 14px;
+    text-align: left;
+    border-bottom: 1px solid #252525;
+}
+.district-data-header{
+    background-color: #1e1e1e;
+}
+.affected-states {
+    font-size: 14px;
+    padding: 7px;
+    width: 100%;
+    text-align: right;
+    color: #949494;
+}
+
+.app-hint {
+    background-color: #1e1e1e;
+    color: #949494;
+    padding: 5px;
+    text-align: center;
+}
+
+.grid-data {
+    text-align: center;
+    padding: 0;
+    &.text-align-right{
+        text-align: right;
+    }
+}
+
+.text-align-left {
+    text-align: left;
+}
+.stay-sticky {
+    position: sticky;
+    top: 0px;
+    z-index: 1;
+}
+.row-container {
+    background-color: #393939;
+    width: 100%;
+    font-weight: 400;
+
+    &.padding-top {
+        padding-top: 10px;
+    }
+
+    .col-width {
+        background-color: black;
+        border: 1px solid #252525;
+        color: white;
+        font-size: 15px;
+    }
+
+    .header-col {
+        color: white;
+        font-size: 15px;
+        border-right: 1px solid #252525;
+        border-bottom: 1px solid #252525;
+    }
+}
+.grid-success {
+    background: var(--ion-color-success);
+    color: var(--ion-color-success-contrast);
+    padding: 7px 0px;
+}
+
+.grid-danger {
+    background: var(--ion-color-danger);
+    color: var(--ion-color-danger-contrast);
+    padding: 7px 0px;
+}
+
+.grid-primary {
+    background: var(--ion-color-primary);
+    color: var(--ion-color-primary-contrast);
+    padding: 7px 0px;
+}
+
+.bg-black{
+    background-color: black;
+}
+
+.grid-dark {
+    background: var(--ion-color-dark);
+    color: var(--ion-color-dark-contrast);
+    padding: 7px 0px;
+}
+
+.bg-dark {
+    background-color: #121212;
+}
+.col-danger {
+    color: var(--ion-color-danger);
+}
+
+.col-success {
+    color: var(--ion-color-success);
+}
+.col-dark {
+    color: #fff; // var(--ion-color-light);
+}
+.col-primary {
+    color: var(--ion-color-primary);
+}
+
+ion-col {
+    overflow: auto;
+    ion-icon {
+        font-size: 10px;
+    }
+}
+
+.district-data-container {
+    padding: 0 10%;
+    .district-data {
+        & ion-col {
+            font-size: 15px;
+            background-color: black;
+            color: #fff;
+            border: 1px solid #252525;
+        }
+    }
+}
+
+.table-footer {
+    background-color: #1e1e1e;
+    color: #fff;
+    & ion-col {
+        font-size: 15px;
+        border: 1px solid #252525;
+    }
+}
+
+.fullheight {
+    height: 100vh;
+}
+
+.no-data {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 0 10px;
+}
+
+.alert-icon {
+    font-size: xx-large;
+}
+
+.footer {
+    padding: 5px;
+    text-align: center;
+    color: white;
+    font-size: 14px;
+    &.success {
+        background-color: #2e2e2e;
+    }
+    .hindi {
+        border-right: 1px solid #d1d0d0;
+    }
+}
+
+.offline-text {
+    font-size: x-large;
+    padding: 5px 0 10px 0;
+}
+
+.retry {
+    padding: 5px 0 0 0;
+}
+
+.about-us-card {
+    padding: 5px;
+    background-color: #1e1e1e;
+
+    .masthead {
+        color: #fff;
+        padding: 5px;
+        text-align: center;
+        font-size: 14px;
+    }
+    .social-sharing {
+        ion-col {
+            text-align: center;
+            * {
+                ion-icon {
+                    font-size: 20px;
+                }
+            }
+        }
+    }
+}
